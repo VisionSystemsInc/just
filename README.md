@@ -40,13 +40,13 @@
 
 - Supports additional help (JUST_HELP_FILES), targets (JUST_DEFAULTIFY_FUNCTIONS), and tab completion
 - docker plugin
-    - build recipes - prep all recipes locally
-    - log - keep docker compose log running, even if all containers stop temporarily
+    - `build recipes` - prep all recipes locally; useful for multi-stage builds
+    - `log` - keep docker compose log running, even if all containers stop temporarily
 - robodoc plugin
     - Make building robodoc documentation easy
 - git plugin
-    - git make-submodules-relative - convert submodule paths from absolute (default on older versions of git) to relative paths.
-    - git submodule-update - a safe version of `git submodule update` which is careful to only update submodules that would not result in the loss (de-referencing) of local changes.
+    - `git make-submodules-relative` - convert submodule paths from absolute (default on older versions of `git` and [accidentally](http://git.661346.n2.nabble.com/Submodule-s-git-file-contains-absolute-path-when-created-using-git-clone-recursive-td7655372.html) v2.7 and v2.8) to relative paths.
+    - `git submodule-update` - a safe version of `git submodule update` which is careful to only update submodules that would not result in the loss (de-referencing) of local changes.
 
 ### `just`'s `docker` features
 - `just --dryrun/-n` - prints out the intervening docker/compose commands, rather than running them
