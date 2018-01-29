@@ -2,36 +2,39 @@
 
 `just`, and its associated Justfile, is a harness written in bash designed to make developing/running code easier.
 
-## Using & Running `just`
+## System Requirements
 
-- Supports Windows 10 (using git MINGW64), macOS (native bash 3.2) and Linux (bash with partial support for zsh)
+- Linux (bash with partial support for zsh)
+- macOS (native bash 3.2)
+- Windows 10 (using git MINGW64)
   - Handles tty in Windows
-- `new_just_project` - setup script to create a new just project
-- Activate a `just` project (`source setup.env`)
-- Or use the `wrap` script to run any target in the `just` environment without adding `just` to your environment
-  - Run interactively, with a custom PS1 string
-- Tab completion for target and subtarget suggestions
-- Run multiple targets at once
-  - Support for pseudo-argument separator variable arguments
-- Dryrun mode that prints out many of the commands, rather than running them
-- Plugins with common targets already set up
-- A bash configuration file stores all of the environment variables used to customize the entire project
-  - User-configurable pre- and post-environment files can be used to customize the environment without committing these changes to repo
 
+## `just` basics
+
+- `./linux/new_just_project` - setup script to create a new just project
+- `source setup.env` - activate a `just` project
+- `just` does not have to be run from the root of the source directory; like `git`, it will search parent directories for the Justfile
+- `just help` lists the available targets in the project
+- `just` supports tab completion for target and subtarget suggestions
+- Plugins available with common targets already set up
 
 ## just Project organization
 - Justfile - like a Makefile for just
   - Consists of a minimal number of lines of `just` code, and a large case statement listing target and subtarget names
 - setup.env - activate the `just` project
 - wrap - run a `just` target without activating the `just` project
+  - Run interactively, with a custom PS1 string
 - _projectname_.env - a bash configuration file stores all of the environment variables used to customize the entire project
   - User-configurable pre- and post-environment files can be used to customize the environment without committing these changes to repo
-- .justplugins - any plugins that are enabled for the project
+- .justplugins - lists plugins that are enabled for the project
 
 ## just Internals
 
+- Identifies targets and subtargets from the Justfile and exposes these for `bash` tab completion
+  - Run multiple targets at once
+    - Support for pseudo-argument separator variable arguments
 - Generates help based off simple comment strings in the Justfile
-- Identifies targets and subtargets from the Justfile and exposes these for bash tab completion
+  - Can generate help for a wild card target using an array
 
 ### just Plugins
 
@@ -46,7 +49,7 @@
     - git submodule-update - a safe version of `git submodule update` which is careful to only update submodules that would not result in the loss (de-referencing) of local changes.
 
 ### `just`'s `docker` features
-  - Can generate help for a wild card target using an array
+- `just --dryrun/-n` - prints out the intervening docker/compose commands, rather than running them
 - `Docker` wrapper to automatically add arguments to docker commands
 - `Docker-compose` wrapper to automatically add arguments to docker-compose commands
     - Automatically add `--rm` flag so that containers aren't left behind
