@@ -11,7 +11,7 @@
 
 ## just Basics
 
-- `./linux/new_just_project` - setup script to create a new just project
+- `./new_just` - setup script to create a new just project
 - `source setup.env` - activate a `just` project
 - `just` does not have to be run from the root of the source directory; like `git`, it will search parent directories for the Justfile
 - `just help` lists the available targets in the project
