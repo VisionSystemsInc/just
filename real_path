@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+
+#****F* vsi/real_path
+# NAME
+#   real_path - OS independent implementation of realpath
+# DESCIPTION
+#   Calls realpath if it exists, else a bash equivalent of it, real_path_manual
+#   Mainly for Darwin where realpath doesn't always exist
+# AUTHOR
+#   Andy Neff
+#***
+
+#****if* real_path/real_path_manual
+# NAME
+#   real_path_manual - Bash implementation of realpath
+# INPUTS
+#   $1 - path to file object
+# OUTPUT
+#   stdout - Full path to non-symlink file of $1
+# AUTHOR
+#   Andy Neff
+#***
+function real_path_manual()
+{ #Mainly for Darwin
+  cd "$(dirname "$1")"
+  local target="$(basename "$1")"
+
+  while [ -L "$target" ]
+  do
+    target="$(readlink "$target")"
+    cd "$(dirname "$target")"
+    target="$(basename "$target")"
+  done
+
+  local physical_dir="$(pwd -P)"
+
+  if [ "${target}" = "." ]; then
+    target=""
+  else
+    target="/${target}"
+  fi
+
+  if [ "${physical_dir}" = "/" ]; then
+    # Special case because pwd and basename are both /, it became // because
+    # of the previous if where it is not ".", also /. is a special case
+    if [ "${target}" = "//" ] || [ "${target}" = "" ]; then
+      echo /
+    else
+      echo "$target"
+    fi
+  else
+    echo "${physical_dir}$target"
+  fi
+}
+
+if [[ ${BASH_SOURCE[0]} == ${0} ]] || [[ $(basename ${BASH_SOURCE[0]}) == ${0} ]]; then
+  if ! cmd=$(command -v realpath); then
+    cmd="readlink -f"
+    if ! ${cmd} / > /dev/null 2>&1; then
+      #Probably Darwin. Thanks Darwin! > : (
+      for x in "${@}"; do
+        real_path_manual "${x}"
+      done
+      exit 0
+    fi
+  fi
+
+  exec $cmd "${@}"
+fi
