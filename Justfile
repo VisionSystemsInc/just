@@ -52,8 +52,17 @@ function caseify()
       (justify build)
       (justify clean venv)
       ;;
+    clean) # Remove all binary artifacts
+      if [ -x "${JUST_CWD}/build" ]; then
+        rm -r "${JUST_CWD}/build"
+      fi
+      if [ -x "${JUST_CWD}/dist" ]; then
+        rm -r "${JUST_CWD}/dist"
+      fi
+
+      (justify clean venv)
+      ;;
     clean_all) # Delete all local volumes
-      ask_question "Are you sure? This will clear your database too!" n
       (justify clean venv)
       ;;
     clean_venv) # Delete the virtual environment volume. The next container \

@@ -1,5 +1,7 @@
 # -*- mode: python -*-
 
+import platform
+
 block_cipher = None
 
 added_files=[('./vsi_common/linux', 'linux'),
@@ -11,11 +13,13 @@ added_files.append(('./vsi_common/docker', 'docker'))
 # Add tests to test just executable
 added_files.append(('./vsi_common/tests', 'test'))
 
-if os.name=='nt':
+if platform.system()=='Windows':
   console=False
   # console=True
 else:
   console=True
+
+name='just-'+platform.system()+'-x86_64'
 
 a = Analysis(['just.py'],
              pathex=['.'],
@@ -35,9 +39,10 @@ exe = EXE(pyz,
           a.binaries,
           a.zipfiles,
           a.datas,
-          name='just',
+          name=name,
           debug=False,
           strip=False,
           upx=True,
           runtime_tmpdir=None,
           console=console )
+

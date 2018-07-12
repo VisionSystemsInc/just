@@ -487,7 +487,7 @@ function caseify()
       fi
       echo '      ;;
     clean_all) # Delete all local volumes
-      ask_question "Are you sure? This will clear your database too!" n
+      ask_question "Are you sure? This will packages not in Pipfile!" n
       (justify clean venv)
       ;;
     clean_venv) # Delete the virtual environment volume. The next container \
