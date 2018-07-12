@@ -1,0 +1,5 @@
+*
+!docker
+!vsi_common
+!Pipfile
+!Pipfile.lock
