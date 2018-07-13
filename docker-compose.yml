@@ -1,4 +1,4 @@
-version: "3.2"
+version: "2.4"
 
 services:
   linux: &linux_anchor
@@ -6,20 +6,26 @@ services:
       context: .
       dockerfile: docker/linux.Dockerfile
     # prevent different users from clobbering each others images
-    image: ${JUST_DOCKER_REPO}:linux_${JUST_USERNAME}
+    image: ${JUST_DOCKER_REPO}:linux
     environment:
       # Variables for docker_entrypoint.bsh
       - DOCKER_UID=${JUST_UID}
       - DOCKER_GIDS=${JUST_GIDS}
       - DOCKER_GROUP_NAMES=${JUST_GROUP_NAMES}
       - DOCKER_USERNAME=user
-      - DISPLAY
     volumes:
       - type: bind
         source: ${JUST_SOURCE_DIR}
         target: ${JUST_SOURCE_DIR_DOCKER}
-      - type: volume
-        source: venv
-        target: /venv
-volumes:
-  venv:
+    platform: linux
+  windows:
+    build:
+      context: .
+      dockerfile: docker/windows.Dockerfile
+    image: ${JUST_DOCKER_REPO}:windows
+    platform: windows
+    volumes:
+      - type: bind
+        source: ${JUST_SOURCE_DIR}
+        target: ${JUST_SOURCE_DIR_DOCKER}
+    platform: linux

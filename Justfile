@@ -31,12 +31,17 @@ function caseify()
       Just-docker-compose run linux ${@+"${@}"}
       extra_args+=$#
       ;;
+    run_windows) # Run linux
+      Just-docker-compose run windows ${@+"${@}"}
+      extra_args+=$#
+      ;;
 
     compile_linux) # Compile the linux binary
-      Just-docker-compose run -w "${JUST_SOURCE_DIR_DOCKER}" linux pyinstaller just.spec
+      Just-docker-compose run linux
       ;;
     compile_windows) # Compiles the windows binary
-      pipenv run pyinstaller just.spec
+      # pipenv run pyinstaller just.spec
+      Docker-compose run windows
       ;;
     compile_macos) # Compiles the macos binary
       pipenv run pyinstaller just.spec

@@ -30,7 +30,8 @@ if [ "$1" == "linux" ]; then
   if [ ! -s "${JUST_SOURCE_DIR}/Pipfile.lock" ]; then
     pipenv lock
   fi
-  pipenv shell
+  cd "${JUST_SOURCE_DIR}"
+  pyinstaller just.spec
 elif [ "$1" == "nopipenv" ]; then
   shift 1
   exec "${@}"
