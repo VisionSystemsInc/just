@@ -35,6 +35,12 @@ function caseify()
     compile_linux) # Compile the linux binary
       Just-docker-compose run -w "${JUST_SOURCE_DIR_DOCKER}" linux pyinstaller just.spec
       ;;
+    compile_windows) # Compiles the windows binary
+      pipenv run pyinstaller just.spec
+      ;;
+    compile_macos) # Compiles the macos binary
+      pipenv run pyinstaller just.spec
+      ;;
 
     setup) # Run any special command to set up the environment for the first \
       # time after checking out the repo. Usually population of volumes/databases \
