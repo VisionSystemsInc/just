@@ -11,7 +11,7 @@ added_files=[('./vsi_common/linux', 'linux'),
 added_files.append(('./vsi_common/docker', 'docker'))
 
 # Add tests to test just executable
-added_files.append(('./vsi_common/tests', 'test'))
+added_files.append(('./vsi_common/tests', 'tests'))
 
 if platform.system()=='Windows':
   console=False

@@ -5,7 +5,8 @@ import os
 
 if hasattr(sys, 'frozen'):
   os.environ['PATH'] = os.path.join(sys._MEIPASS, 'linux')+os.pathsep+os.environ['PATH']
-  os.environ['VSI_COMMON_DIR'] = sys._MEIPASS
+  os.environ['VSI_COMMON_DIR'] = os.environ.get('VSI_COMMON_DIR', sys._MEIPASS)
+  os.environ['JUST_FROZEN'] = '1'
 
 import subprocess
 
@@ -19,6 +20,6 @@ if os.name=='nt':
 # "cmd /c color 07; bash \"$0\" ${@}; bash --rcfile \"${VSI_COMMON_DIR}/.winbashrc\""
   sp.wait()
 else:
-  sp=subprocess.Popen([os.path.join(sys._MEIPASS, 'linux', 'just').replace('\\', '/')]+sys.argv[1:], shell=False)
+  sp=subprocess.Popen(['just']+sys.argv[1:], shell=False)
   sp.wait()
   sys.exit(sp.returncode)
