@@ -17,9 +17,10 @@ make developing/running code easier.
     to your project. This exposes all the internals for code development
   - You can also download the `just` executable in the Releases section, and put
     the executable in your system path.
-- To run the `new_just` wizard to add `just` to your projecy, you can:
+- To run the `new_just` wizard to add `just` to your project, you can:
 
-      bash <(curl -sL https://raw.githubusercontent.com/VisionSystemsInc/just/master/new_just)
+      curl -LO https://raw.githubusercontent.com/VisionSystemsInc/vsi_common/master/linux/new_just;
+      bash ./new_just
 
 
 ## System Requirements
