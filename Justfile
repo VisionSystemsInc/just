@@ -24,7 +24,11 @@ function caseify()
         extra_args+=$#
       else
         (justify build_recipes)
-        Docker-compose build
+        if [ "${VSI_OS}" == "windows" ]; then
+          Docker-compose build
+        else
+          Docker-compose build linux
+        fi
       fi
       ;;
     run_linux) # Run linux
