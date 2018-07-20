@@ -31,7 +31,7 @@ if [ "$1" == "linux" ]; then
     pipenv lock
   fi
   cd "${JUST_SOURCE_DIR}"
-  pyinstaller just.spec
+  pipenv run pyinstaller --workpath=./build/just-linux just.spec
 elif [ "$1" == "nopipenv" ]; then
   shift 1
   exec "${@}"

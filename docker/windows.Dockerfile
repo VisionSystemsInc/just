@@ -21,4 +21,4 @@ RUN if ( (get-childitem C:\\src\\Pipfile.lock).length -eq 0 ) `
     rm -recurse C:\\src
 
 CMD cd c:\\src; `
-    pipenv run pyinstaller just.spec
+    pipenv run pyinstaller --workpath .\\build\\just-windows just.spec

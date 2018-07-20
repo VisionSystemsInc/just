@@ -17,6 +17,9 @@ services:
       - type: bind
         source: ${JUST_SOURCE_DIR}
         target: ${JUST_SOURCE_DIR_DOCKER}
+      - type: volume
+        source: venv
+        target: /venv
     platform: linux
   windows:
     build:
@@ -29,3 +32,49 @@ services:
         source: ${JUST_SOURCE_DIR}
         target: ${JUST_SOURCE_DIR_DOCKER}
     platform: linux
+
+  wine: &wine
+    build:
+      context: .
+      dockerfile: docker/wine.Dockerfile
+    image:
+      just_wine
+    cap_add:
+      - SYS_PTRACE
+    working_dir: /just
+    environment:
+      - USER_ID=${JUST_UID-1000}
+      - VSI_COMMON_IS_POWERSHELL=1
+      - WINEDEBUG=fixme-all,err-winediag,err-menubuilder
+    volumes:
+      - type: volume
+        source: wine_home
+        target: /home/.user_wine
+      - type: bind
+        source: .
+        target: /just
+    platform: linux
+    command: -c "cd /z/vsi_common; bash -l"
+  wine_gui:
+    <<: *wine
+    environment:
+      - USER_ID=${JUST_UID-1000}
+      - VSI_COMMON_IS_POWERSHELL=1
+      - WINEDEBUG=fixme-all,err-winediag,err-menubuilder
+      - DISPLAY
+    volumes:
+      - type: volume
+        source: wine_home
+        target: /home/.user_wine
+      - type: bind
+        source: .
+        target: /just
+      - type: bind
+        read_only: true
+        target: /tmp/.X11-unix
+        source: /tmp/.X11-unix
+    command: []
+
+volumes:
+  wine_home:
+  venv:
