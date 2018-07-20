@@ -43,7 +43,7 @@ make developing/running code easier.
 
 ## just Basics
 
-- `./new_just` - setup script to create a new just project
+- `just --new` - setup script to create a new just project
 - `source setup.env` - activate a `just` project
 - `just` does not have to be run from the root of the source directory; like `git`, it will search parent directories for the Justfile
 - `just help` lists the available targets in the project
