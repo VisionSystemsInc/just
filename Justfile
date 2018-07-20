@@ -33,6 +33,9 @@ function caseify()
       ;;
     build_darling) # Build darling environment
       (
+        # darling uses a very old version of openssl (instead of libcrypto,
+        # which is the library macOS uses), which prevents pip from establishing
+        # a secure connection. so just download these packages myself
         mkdir -p build/macos
         pushd build/macos
         curl -LO https://files.pythonhosted.org/packages/3c/86/909a8c35c5471919b3854c01f43843d9b5aed0e9948b63e560010f7f3429/PyInstaller-3.3.1.tar.gz
