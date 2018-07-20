@@ -17,11 +17,22 @@ make developing/running code easier.
     to your project. This exposes all the internals for code development
   - You can also download the `just` executable in the Releases section, and put
     the executable in your system path.
-- To run the `new_just` wizard to add `just` to your project, you can:
+- To get `just`
+   1. Download the latest just from the [release page](https://github.com/VisionSystemsInc/just/releases)
+   2. But the just exectuable in your path and add execute permissions
+   
+   - Example (you will need to update version number and platform):
 
-      curl -LO https://raw.githubusercontent.com/VisionSystemsInc/vsi_common/master/linux/new_just;
-      bash ./new_just
+    ```
+    sudo curl -L https://github.com/VisionSystemsInc/just/releases/download/0.0.6/just-Linux-x86_64 -o /usr/local/bin/just
+    chmod 755 /usr/local/bin/just
+    ```
 
+- To run the new just wizard to add `just` to your project, `cd` into your project directory and run:
+
+    ```
+    just --new
+    ```
 
 ## System Requirements
 
