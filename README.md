@@ -92,6 +92,8 @@ make developing/running code easier.
     - Create a user with the same UIDs, GIDs, name, home dir, etc... as the host
       - Avoids permission issues when creating files in a volume and facilitates running GUIs
     - Set up symlinks to the NFS volumes
+    - Replaces environemnt variables containing `^//` and `://` with single `/` versions. This is handle the Git for Windows workarounds that require `//` to prevent path translation. On rare occations, the `//` cause problem for software inside the docker and this feature corrects this
+      - The variable `JUST_NO_PATH_CONV` can be set to a regex pattern for variable names that are not to have the correction applied
 - Designed to support both the traditional "run and discard" approach to dockers, and long running interactive development containers.
 - `DOCKER`, `DOCKER_COMPOSE`, `NVIDIA_DOCKER` environment variables for specifying the docker executables
 - docker "recipes"
