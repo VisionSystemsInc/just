@@ -115,13 +115,13 @@ function caseify()
       Just-docker-compose run windows
       ;;
     compile_wine) # Compile the windows binary using wine
-      Just-docker-compose run wine
+      Just-docker-compose run wine wine64 pyinstaller --workpath build/wine just.spec
       ;;
     compile_macos) # Compiles the macos binary
       pipenv run pyinstaller just.spec
       ;;
     compile_darling) # Compiles the macos binary using darling
-      darling shell ./build/macos/pyinstaller --workpath ./build/just-macos just.spec
+      darling shell ./build/macos/pyinstaller --workpath ./build/macos just.spec
       ;;
 
     setup) # Run any special command to set up the environment for the first \

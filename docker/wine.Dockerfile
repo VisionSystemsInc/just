@@ -75,9 +75,12 @@ RUN apk add --no-cache --virtual .curl curl; \
 
 RUN export WINEPREFIX=/home/wine; \
     cd /home/wine/drive_c/python/Lib; \
-    wine64 c:\\python\\python -m ensurepip; \
-    wine64 c:\\python\\python -m pip install -U pip; \
-    wine64 c:\\python\\Scripts\\pip install pyinstaller==2.1 pywin32; \
+    wine64 python -m ensurepip; \
+    wine64 python -m pip install -U pip; \
+    wineserver -w
+
+RUN export WINEPREFIX=/home/wine; \
+    wine64 pip install pyinstaller==3.3.1 pywin32; \
     wineserver -w
 
 ADD docker/wine_entrypoint.bsh /
