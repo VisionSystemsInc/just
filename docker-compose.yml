@@ -43,21 +43,29 @@ services:
       - SYS_PTRACE
     working_dir: /just
     environment:
+      - DOCKER_UID=${JUST_UID}
+      - DOCKER_GIDS=${JUST_GIDS}
+      - DOCKER_GROUP_NAMES=${JUST_GROUP_NAMES}
+      - DOCKER_USERNAME=user
       - USER_ID=${JUST_UID-1000}
       - VSI_COMMON_IS_POWERSHELL=1
       - WINEDEBUG=fixme-all,err-winediag,err-menubuilder
     volumes:
       - type: volume
         source: wine_home
-        target: /home/.user_wine
+        target: /home/wine
       - type: bind
         source: .
         target: /just
     platform: linux
-    command: -c "cd /z/vsi_common; bash -l"
+    # command: -c "cd /z/vsi_common; bash -l"
   wine_gui:
     <<: *wine
     environment:
+      - DOCKER_UID=${JUST_UID}
+      - DOCKER_GIDS=${JUST_GIDS}
+      - DOCKER_GROUP_NAMES=${JUST_GROUP_NAMES}
+      - DOCKER_USERNAME=user
       - USER_ID=${JUST_UID-1000}
       - VSI_COMMON_IS_POWERSHELL=1
       - WINEDEBUG=fixme-all,err-winediag,err-menubuilder
@@ -73,7 +81,7 @@ services:
         read_only: true
         target: /tmp/.X11-unix
         source: /tmp/.X11-unix
-    command: []
+    # command: []
 
 volumes:
   wine_home:

@@ -1,6 +1,7 @@
 FROM vsiri/recipe:gosu as gosu
 FROM vsiri/recipe:tini as tini
 FROM vsiri/recipe:pipenv as pipenv
+FROM vsiri/recipe:vsi as vsi
 
 FROM centos:7
 
@@ -33,7 +34,7 @@ RUN if [ ! -s Pipfile.lock ]; then \
 # Allow non-privileged to run gosu (remove this to take root away from user)
 RUN chmod u+s /usr/local/bin/gosu
 
-ADD vsi_common /vsi
+COPY --from=vsi /vsi /vsi
 ADD docker/linux_entrypoint.bsh /
 
 ENTRYPOINT ["/usr/local/bin/tini", "/usr/bin/env", "bash", "/linux_entrypoint.bsh"]
