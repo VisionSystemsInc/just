@@ -169,6 +169,13 @@ function caseify()
         echo "${COMPOSE_PROJECT_NAME}_venv already removed"
       fi
       ;;
+    upload_release) # Upload a new release to github - $1 - release name
+      ${DRYRUN} hub release create -a "${JUST_CWD}/dist/just-Darwin-x86_64" \
+                         -a "${JUST_CWD}/dist/just-Linux-x86_64" \
+                         -a "${JUST_CWD}/dist/just-Windows-x86_64.exe" \
+                         "${1}"
+      extra_args+=1
+      ;;
     *)
       defaultify "${just_arg}" ${@+"${@}"}
       ;;
