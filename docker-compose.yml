@@ -34,10 +34,6 @@ services:
       MUSL: 1
     volumes:
       - *linux_volume1
-      - type: volume
-        source: venv_musl
-        target: /venv
-
 
   windows:
     build:
@@ -104,4 +100,3 @@ services:
 volumes:
   wine_home:
   venv:
-  venv_musl:

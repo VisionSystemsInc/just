@@ -23,6 +23,7 @@ function caseify()
         Docker-compose "${just_arg}" ${@+"${@}"}
         extra_args+=$#
       else
+        (justify clean venv)
         (justify build_recipes)
         if [ "${VSI_OS}" == "windows" ]; then
           Docker-compose build
@@ -117,9 +118,7 @@ function caseify()
       Just-docker-compose run linux
       ;;
     compile_musl) # Compile the linux musl binary
-      Just-docker-compose run musl sh -c "
-        cd /src;
-        pipenv run pyinstaller --workpath=./build/just-musl just.spec"
+      Just-docker-compose run musl
       ;;
     compile_windows) # Compiles the windows binary
       # pipenv run pyinstaller just.spec
@@ -183,6 +182,7 @@ function caseify()
     upload_release) # Upload a new release to github - $1 - release name
       ${DRYRUN} hub release create -a "${JUST_CWD}/dist/just-Darwin-x86_64" \
                          -a "${JUST_CWD}/dist/just-Linux-x86_64" \
+                         -a "${JUST_CWD}/dist/just-Linux-musl-x86_64" \
                          -a "${JUST_CWD}/dist/just-Windows-x86_64.exe" \
                          "${1}"
       extra_args+=1

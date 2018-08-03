@@ -109,3 +109,7 @@ make developing/running code easier.
 - `DOCKER`, `DOCKER_COMPOSE`, `NVIDIA_DOCKER` environment variables for specifying the docker executables
 - docker "recipes"
   - Frequently used snippets of Dockerfile code, which can be referenced with multi-staged docker builds
+
+## Alpine support
+
+Alpine support is experimental and buggy, to say the least. You at least need to have `bash` installed in order for just to work in alpine. You currently need `ncurses` installed for some of the more advanced features

@@ -24,10 +24,10 @@ ENV WORKON_HOME=/venv \
 ADD Pipfile Pipfile.lock /src/
 # Break apart into multiple steps if it gets too big. Manually pick big packages
 # And install them separate RUN commands
-RUN if [ ! -s Pipfile.lock ]; then \
-      pipenv lock; \
+RUN if [ ! -s "${PIPENV_PIPFILE}.lock" ]; then \
+      rm "${PIPENV_PIPFILE}.lock"; \
     fi; \
-    pipenv install; \
+    pipenv install --python "$(command -v python36)"; \
     # Cleanup and make way for the real /src that will be mounted at runtime
     rm -r /src
 
