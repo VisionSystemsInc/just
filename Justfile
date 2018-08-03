@@ -27,7 +27,7 @@ function caseify()
         if [ "${VSI_OS}" == "windows" ]; then
           Docker-compose build
         else
-          Docker-compose build linux wine
+          Docker-compose build linux wine musl
         fi
       fi
       ;;
@@ -99,9 +99,15 @@ function caseify()
       ;;
     run_wine) # Run wine in console
       Just-docker-compose run wine ${@+"${@}"}
+      extra_args+=$#
       ;;
     run_wine-gui) # Run wine with GUI console
       Just-docker-compose run wine_gui ${@+"${@}"} &
+      extra_args+=$#
+      ;;
+    run_musl) # Compile the linux musl binary
+      Just-docker-compose run musl ${@+"${@}"}
+      extra_args+=$#
       ;;
     debug_wine) # Debug wine
       Just-docker-compose run --entrypoint= wine_gui bash
@@ -109,6 +115,11 @@ function caseify()
 
     compile_linux) # Compile the linux binary
       Just-docker-compose run linux
+      ;;
+    compile_musl) # Compile the linux musl binary
+      Just-docker-compose run musl sh -c "
+        cd /src;
+        pipenv run pyinstaller --workpath=./build/just-musl just.spec"
       ;;
     compile_windows) # Compiles the windows binary
       # pipenv run pyinstaller just.spec

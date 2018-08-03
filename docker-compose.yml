@@ -7,20 +7,38 @@ services:
       dockerfile: docker/linux.Dockerfile
     # prevent different users from clobbering each others images
     image: ${JUST_DOCKER_REPO}:linux
-    environment:
+    environment: &linux_env_anchor
       # Variables for docker_entrypoint.bsh
-      - DOCKER_UID=${JUST_UID}
-      - DOCKER_GIDS=${JUST_GIDS}
-      - DOCKER_GROUP_NAMES=${JUST_GROUP_NAMES}
-      - DOCKER_USERNAME=user
+      DOCKER_UID: ${JUST_UID}
+      DOCKER_GIDS: ${JUST_GIDS}
+      DOCKER_GROUP_NAMES: ${JUST_GROUP_NAMES}
+      DOCKER_USERNAME: user
     volumes:
-      - type: bind
+      - &linux_volume1
+        type: bind
         source: ${JUST_SOURCE_DIR}
         target: ${JUST_SOURCE_DIR_DOCKER}
       - type: volume
         source: venv
         target: /venv
     platform: linux
+
+  musl:
+    <<: *linux_anchor
+    build:
+      context: .
+      dockerfile: docker/musl.Dockerfile
+    image: ${JUST_DOCKER_REPO}:musl
+    environment:
+      <<: *linux_env_anchor
+      MUSL: 1
+    volumes:
+      - *linux_volume1
+      - type: volume
+        source: venv_musl
+        target: /venv
+
+
   windows:
     build:
       context: .
@@ -86,3 +104,4 @@ services:
 volumes:
   wine_home:
   venv:
+  venv_musl:

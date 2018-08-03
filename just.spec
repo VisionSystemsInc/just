@@ -1,6 +1,7 @@
 # -*- mode: python -*-
 
 import platform
+import os
 
 block_cipher = None
 
@@ -19,7 +20,10 @@ if platform.system()=='Windows':
 else:
   console=True
 
-name='just-'+platform.system()+'-x86_64'
+if os.environ.get('MUSL', None)=='1':
+  name='just-'+platform.system()+'-musl-x86_64'
+else:
+  name='just-'+platform.system()+'-x86_64'
 
 a = Analysis(['just.py'],
              pathex=['.'],

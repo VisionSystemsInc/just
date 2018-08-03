@@ -1,18 +1,12 @@
-FROM vsiri/recipe:gosu as gosu
-FROM vsiri/recipe:tini as tini
 FROM vsiri/recipe:pipenv as pipenv
 FROM vsiri/recipe:vsi as vsi
 
-FROM centos:7
+FROM alpine:3.8
 
-SHELL ["/usr/bin/env", "bash", "-euxvc"]
+SHELL ["/usr/bin/env", "sh", "-euxvc"]
 
-RUN yum install -y epel-release; \
-    yum install -y python36 which; \
-    yum clean all
+RUN apk add --no-cache su-exec tini bash python3 binutils
 
-COPY --from=tini /usr/local/bin/tini /usr/local/bin/tini
-COPY --from=gosu /usr/local/bin/gosu /usr/local/bin/gosu
 COPY --from=pipenv /tmp/pipenv /tmp/pipenv
 RUN /tmp/pipenv/get-pipenv; rm -r /tmp/pipenv
 ENV WORKON_HOME=/venv \
@@ -32,11 +26,12 @@ RUN if [ ! -s Pipfile.lock ]; then \
     rm -r /src
 
 # Allow non-privileged to run gosu (remove this to take root away from user)
-RUN chmod u+s /usr/local/bin/gosu
+RUN chmod u+s /sbin/su-exec; \
+    ln -s /sbin/su-exec /sbin/gosu
 
 COPY --from=vsi /vsi /vsi
 ADD docker/linux_entrypoint.bsh /
 
-ENTRYPOINT ["/usr/local/bin/tini", "/usr/bin/env", "bash", "/linux_entrypoint.bsh"]
+ENTRYPOINT ["/sbin/tini", "/usr/bin/env", "bash", "/linux_entrypoint.bsh"]
 
 CMD ["linux"]
