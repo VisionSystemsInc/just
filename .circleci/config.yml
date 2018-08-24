@@ -26,7 +26,7 @@ jobs:
           name: Build artifacts
           command: |
             . setup.env
-            just run linux wine musl
+            just compile linux wine musl
 
       - store_artifacts:
           path: ./dist
