@@ -28,6 +28,11 @@ jobs:
             . setup.env
             just compile linux wine musl
 
+      - run:
+          name: Smuggle artifacts back
+          command: |
+            docker run --rm -v /root/repo:/src:ro -w /src alpine:3.8 tar c dist | tar x
+
       - store_artifacts:
           path: ./dist
 
