@@ -24,7 +24,7 @@ function caseify()
         extra_args+=$#
       else
         (justify clean venv)
-        (justify build_recipes)
+        (justify build_recipes vsi gosu tini tini-musl pipenv)
         if [ "${VSI_OS}" == "windows" ]; then
           Docker-compose build
         else

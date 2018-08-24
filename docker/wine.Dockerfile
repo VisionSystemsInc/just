@@ -1,5 +1,5 @@
 FROM vsiri/recipe:gosu as gosu
-FROM vsiri/recipe:tini-alpine as tini
+FROM vsiri/recipe:tini-musl as tini
 FROM vsiri/recipe:vsi as vsi
 
 #FROM fedora:28
