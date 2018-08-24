@@ -21,9 +21,9 @@ else:
   console=True
 
 if os.environ.get('MUSL', None)=='1':
-  name='just-'+platform.system()+'-musl-x86_64'
+  name='juste-'+platform.system()+'-musl-x86_64'
 else:
-  name='just-'+platform.system()+'-x86_64'
+  name='juste-'+platform.system()+'-x86_64'
 
 a = Analysis(['just.py'],
              pathex=['.'],
