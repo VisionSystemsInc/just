@@ -1,0 +1,14 @@
+os: osx
+
+script:
+  - brew install python ghr
+  - pip install pyinstaller
+  - pyinstaller --workpath ./build/macos just.spec
+
+# deploy:
+#   provider: releases
+#   api_key: "GITHUB OAUTH TOKEN"
+#   file: "FILE TO UPLOAD"
+#   skip_cleanup: true
+#   on:
+#     tags: true
