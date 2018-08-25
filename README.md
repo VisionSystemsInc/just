@@ -17,16 +17,18 @@ make developing/running code easier.
     to your project. This exposes all the internals for code development
   - You can also download the `just` executable in the Releases section, and put
     the executable in your system path.
-- To get `just`
+- To get `juste` (The executable version of `just`)
    1. Download the latest just from the [release page](https://github.com/VisionSystemsInc/just/releases)
-   2. But the just exectuable in your path and add execute permissions
+   2. Put the just exectuable in your path and add execute permissions
    
    - Example (you will need to update version number and platform):
 
     ```
-    sudo curl -L https://github.com/VisionSystemsInc/just/releases/download/0.0.6/just-Linux-x86_64 -o /usr/local/bin/just
-    chmod 755 /usr/local/bin/just
+    sudo curl -L https://github.com/VisionSystemsInc/just/releases/download/0.0.10/juste-Linux-x86_64 -o /usr/local/bin/juste
+    chmod 755 /usr/local/bin/juste
     ```
+    
+    When using `juste`, replace any `just` command in the documentation with `juste`
 
 - To run the new just wizard to add `just` to your project, `cd` into your project directory and run:
 
