@@ -1,7 +1,7 @@
 os: osx
-language: python
 
 install:
+  - brew install python3
   - pip install pyinstaller
 
 script:
