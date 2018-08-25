@@ -1,14 +1,18 @@
 os: osx
+language: python
+
+install:
+  - pip install pyinstaller
 
 script:
-  - brew install python ghr
-  - pip install pyinstaller
   - pyinstaller --workpath ./build/macos just.spec
 
-# deploy:
-#   provider: releases
-#   api_key: "GITHUB OAUTH TOKEN"
-#   file: "FILE TO UPLOAD"
-#   skip_cleanup: true
-#   on:
-#     tags: true
+deploy:
+  provider: releases
+  api_key:
+    secure: "eHlYqNBBcOV7zoHKu/NKF2iscI4OOubVdeGd/Ddw6zosZmASZE0ZUMCSfQGpy55/SFl6YFxy3YZ2z6HeoK88jr3Jqhork6UwMVqGhemA3fSM+boHoAcYQmA984kumBoUNPqqoNt6OFP6SREzRZyBTyTii2y7iCvsP7mhVWztxT2suYIyXF8WivlqWL1SSj4WP00bd08xflJFg17jD1RWwBEjzBd8KmpLt+sogWDH8wrjCRb4Deooud2yURGmCsvoTnlUoZZe1TB4vzMR4Th08Lcy7hZARwkVcwDwmnLYg7stoFOJ2hQ8mzv02lMTDKlI7GOHexXztF/d5wtc/dyGDeC9KP8k+7/stV8UfxWLnRMTdYqJZq6qARx//8oJegFAW3/dS3izKAkzvwOcQXY/xDiPcxzmQCI2GC39VDlyi8+PNaBHjEKCgHJp8DcwgPn0VfOyn04IyE9qaZ91BGi/UXV3zhw2BaBmF5UKXnJI/LuMhhA/0kELB2Xzu0I+DNx0K5jjxHviOMCcwu8YcI7BAKefpBCdPIt+AYX4mYOx72MrOfnoz5n1XquCwQ6+0mBY1ImPSjNpaKDACpOWJ9KFfGfI+Z4AOjBRioyi+8ZZeMCno+X0dL2qKR24vBTT5NAI3Hd33C6zmZhXkpJp/SUWxJ5HwU6R+aAFoQJSNkPLA1o="
+  file:
+    - dist/juste-Darwin-x86_64
+  skip_cleanup: true
+  on:
+    tags: true
