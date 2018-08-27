@@ -62,9 +62,9 @@ FROM andyneff/wine
 RUN apk add --no-cache gnutls
 
 ARG PYTHON_VERSION=2.7.15
-RUN apk add --no-cache --virtual .curl curl; \
+RUN apk add --no-cache --virtual .deps curl; \
     curl -LO https://www.python.org/ftp/python/${PYTHON_VERSION}/python-${PYTHON_VERSION}.amd64.msi; \
-    apk del .curl; \
+    apk del .deps; \
     # Install python
     export WINEPREFIX=/home/wine; \
     cd /home/wine/drive_c; \
@@ -86,9 +86,9 @@ RUN export WINEPREFIX=/home/wine; \
 ADD docker/wine_entrypoint.bsh /
 
 # ARG PYTHON_VERSION=3.7.0
-# RUN apk add --no-cache --virtual .curl curl; \
+# RUN apk add --no-cache --virtual .deps curl; \
 #     curl -LO https://www.python.org/ftp/python/${PYTHON_VERSION}/python-${PYTHON_VERSION}-embed-amd64.zip; \
-#     apk del .curl
+#     apk del .deps
 
 # ADD docker/wine_entrypoint.bsh /
 
