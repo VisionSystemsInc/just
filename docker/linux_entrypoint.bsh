@@ -8,7 +8,7 @@ if [ "${ALREADY_RUN_ONCE+set}" != "set" ]; then
   # create the user and associated groups and handle nfs symlinks
   source "${VSI_COMMON_DIR}/linux/elements.bsh"
   join_a venvs /venv/*
-  JUST_DOCKER_ENTRYPOINT_INTERNAL_DIRS="${venvs}" \
+  JUST_DOCKER_ENTRYPOINT_CHOWN_DIRS="${venvs}" \
   /usr/bin/env bash /vsi/linux/docker_entrypoint.bsh
 
   # Rerun entrypoint as user now, (skipping the root part via ALREADY_RUN_ONCE)
