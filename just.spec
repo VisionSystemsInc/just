@@ -20,7 +20,7 @@ if platform.system()=='Windows':
 else:
   console=True
 
-if os.environ.get('MUSL', None)=='1':
+if os.environ.get('VSI_MUSL', None)=='1':
   name='juste-'+platform.system()+'-musl-x86_64'
 else:
   name='juste-'+platform.system()+'-x86_64'

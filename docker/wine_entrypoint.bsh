@@ -2,7 +2,7 @@
 
 set -eu
 
-source "${VSI_COMMON_DIR:-/vsi}/linux/just_env" "/just/just.env"
+source "${VSI_COMMON_DIR:-/vsi}/linux/just_env" "${JUST_SOURCE_DIR-/src}/just.env"
 
 if [ "${ALREADY_RUN_ONCE+set}" != "set" ]; then
   JUST_DOCKER_ENTRYPOINT_INTERNAL_DIRS="/home/wine" \

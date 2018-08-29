@@ -2,7 +2,8 @@
 
 set -eu
 
-source "${JUST_SOURCE_DIR}/wrap"
+source "${VSI_COMMON_DIR:-/vsi}/linux/just_env" "${JUST_SOURCE_DIR-/src}/just.env"
+export VSI_MUSL
 
 if [ "${ALREADY_RUN_ONCE+set}" != "set" ]; then
   # create the user and associated groups and handle nfs symlinks

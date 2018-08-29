@@ -7,7 +7,7 @@ services:
       dockerfile: docker/linux.Dockerfile
     # prevent different users from clobbering each others images
     image: ${JUST_DOCKER_REPO}:linux
-    environment: &linux_env_anchor
+    environment:
       # Variables for docker_entrypoint.bsh
       DOCKER_UID: ${JUST_UID}
       DOCKER_GIDS: ${JUST_GIDS}
@@ -29,9 +29,6 @@ services:
       context: .
       dockerfile: docker/musl.Dockerfile
     image: ${JUST_DOCKER_REPO}:musl
-    environment:
-      <<: *linux_env_anchor
-      MUSL: 1
     volumes:
       - *linux_volume1
 
