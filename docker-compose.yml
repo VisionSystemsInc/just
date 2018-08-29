@@ -39,9 +39,7 @@ services:
     image: ${JUST_DOCKER_REPO}:windows
     platform: windows
     volumes:
-      - type: bind
-        source: ${JUST_SOURCE_DIR}
-        target: ${JUST_SOURCE_DIR_DOCKER}
+      - *linux_volume1
     platform: linux
 
   wine: &wine
@@ -52,7 +50,7 @@ services:
       just_wine
     cap_add:
       - SYS_PTRACE
-    working_dir: /just
+    working_dir: /src
     environment:
       - DOCKER_UID=${JUST_UID}
       - DOCKER_GIDS=${JUST_GIDS}
@@ -65,9 +63,7 @@ services:
       - type: volume
         source: wine_home
         target: /home/wine
-      - type: bind
-        source: .
-        target: /just
+      - *linux_volume1
     platform: linux
     # command: -c "cd /z/vsi_common; bash -l"
   wine_gui:
@@ -85,9 +81,7 @@ services:
       - type: volume
         source: wine_home
         target: /home/.user_wine
-      - type: bind
-        source: .
-        target: /just
+      - *linux_volume1
       - type: bind
         read_only: true
         target: /tmp/.X11-unix
