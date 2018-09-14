@@ -8,7 +8,7 @@ if hasattr(sys, 'frozen'):
   if os.environ.has_key('VSI_COMMON_DIR') and not \
      os.path.exists(os.path.expandvars(os.path.expanduser(os.environ['VSI_COMMON_DIR']))):
       print('ERROR: the environment variable VSI_COMMON_DIR is set to a directory that does not exist;')
-      print('       please either unset correct it')
+      print('       please either unset or correct it')
       sys.exit(1)
   os.environ['VSI_COMMON_DIR'] = os.environ.get('VSI_COMMON_DIR', sys._MEIPASS)
   os.environ['JUST_FROZEN'] = '1'
