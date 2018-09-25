@@ -187,6 +187,11 @@ function caseify()
                          "${1}"
       extra_args+=1
       ;;
+
+    test) # Run integration tests
+      TESTS_DIR="${JUST_CWD}/tests" "${VSI_COMMON_DIR}/tests/run_tests.bsh" ${@+"${@}"}
+      extra_args+=$#
+      ;;
     *)
       defaultify "${just_arg}" ${@+"${@}"}
       ;;
