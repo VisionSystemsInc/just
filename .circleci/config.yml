@@ -38,6 +38,8 @@ jobs:
           environment:
             LDCONFIG: /usr/glibc-compat/sbin/ldconfig
           command: |
+            git config --global user.email "you@example.com"
+            git config --global user.name "Your Name"
             . setup.env
             just test
 

@@ -5,8 +5,8 @@ install:
 
 script:
   - pyinstaller --workpath ./build/macos just.spec
-
-script:
+  - git config --global user.email "you@example.com"
+  - git config --global user.name "Your Name"
   - source setup.env && just test
 
 deploy:

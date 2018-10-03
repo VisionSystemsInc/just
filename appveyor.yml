@@ -26,4 +26,6 @@ build_script:
 test_script:
   # tests/optionaltest and tests/shtest fail on Windows; run them
   # anyways but ignore their failures.  Also, trace shtest.
+  - git config --global user.email "you@example.com"
+  - git config --global user.name "Your Name"
   - bash -c "cd $APPVEYOR_BUILD_FOLDER && source setup.env && just test"
