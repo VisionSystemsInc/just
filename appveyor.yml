@@ -21,7 +21,7 @@ install:
 # This is how you select "Script mode" instead of "MSBuild" mode. There MUST
 # be something in build_script, else it doesn't count :(
 build_script:
-  - bash -c "cd $APPVEYOR_BUILD_FOLDER && source setup.env && just --wrap C:\\Python37-x64\\Scripts\\pyinstaller .\\build\\just-windows just.spec"
+  - bash -c "cd $APPVEYOR_BUILD_FOLDER && source setup.env && just --wrap C:/Python37-x64/Scripts/pyinstaller ./build/just-windows just.spec"
 
 test_script:
   # tests/optionaltest and tests/shtest fail on Windows; run them
