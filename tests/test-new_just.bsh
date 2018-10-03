@@ -77,7 +77,7 @@ services:
     ans+="      - /tmp/.X11-unix:/tmp/.X11-unix:ro
 "
   fi
-  ans+="      - ${TESTDIR}/new-data:/data
+  ans+="      - $(real_path "${TESTDIR}")/new-data:/data
     environment:
       - JTEST_DATA_DIR_HOST=${TESTDIR}/new-data
       - JTEST_DATA_DIR=/data
@@ -145,7 +145,7 @@ services:
     ans+="      - /tmp/.X11-unix:/tmp/.X11-unix:ro
 "
   fi
-  ans+="      - ${TESTDIR}/new-data:/data
+  ans+="      - $(real_path "${TESTDIR}")/new-data:/data
     environment:
       - JTEST_DATA_DIR_HOST=${TESTDIR}/new-data
       - JTEST_DATA_DIR=/data
