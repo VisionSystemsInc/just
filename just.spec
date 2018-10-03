@@ -6,7 +6,8 @@ import os
 block_cipher = None
 
 added_files=[('./vsi_common/linux', 'linux'),
-             ('./vsi_common/env.bsh', '.')]
+             ('./vsi_common/env.bsh', '.'),
+             ('./vsi_common/Justfile', '.')]
 
 # Add for recipes
 added_files.append(('./vsi_common/docker', 'docker'))
