@@ -36,17 +36,17 @@ begin_test "juste --new"
                    --prefix JTEST \
                    --project-dir "${TESTDIR}" \
                    --justfile "j.u.s.t  f i'l\"e" \
-                   --setupfile "set u.p  f i'l\"e" \
                    --project-name "je.  t e's\"t" \
                    --app yaan \
                    --repo atest/btest
+
+  export JUSTFILE="j.u.s.t  f i'l\"e"
 
   [ "$("${juste}" --wrap bash -c 'echo $JTEST_CWD')" = "${TESTDIR}" ]
 
   export PATH="${TESTDIR}/ss:${PATH}"
   export COMPOSE_PROJECT_NAME=testpro
   mkdir "${TESTDIR}/ss"
-  . "set u.p  f i'l\"e"
 
   uwecho '#!/usr/bin/env bash
           echo mockdc "${@}"' > ss/docker-compose
@@ -78,6 +78,14 @@ services:
       - JTEST_DATA_DIR_HOST=${TESTDIR}/new-data
       - JTEST_DATA_DIR=/data
       - JTEST_SOURCE_DIR_HOST=${TESTDIR}
+      - JTEST_SOURCE_DIR=/src
+  yaan2:
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+    environment:
+      - JTEST_DATA_DIR_HOST=${TESTDIR}/new-data
+      - JTEST_DATA_DIR=/data
+      - JTEST_SOURCE_DIR_HOST=${TESTDIR}
       - JTEST_SOURCE_DIR=/src"
 
   [ "$(cat "${tmp_file}")" = "${ans}" ]
@@ -105,14 +113,15 @@ begin_test "New Just no pipenv"
   [ "$("${juste}" --wrap bash -c 'echo $JTEST_CWD')" = "${TESTDIR}" ]
 
   export PATH="${TESTDIR}:${PATH}"
-  . setup.env
 
   uwecho '#!/usr/bin/env bash
           echo mockdc "${@}"' > docker-compose
   chmod 755 docker-compose
 
-  [ "$("${juste}" build)" = "mockdc -f ${TESTDIR}/external/vsi_common/docker/recipes/docker-compose.yml build gosu tini vsi
-mockdc -f ${TESTDIR}/docker-compose.yml build" ]
+  ans="mockdc -f .*/docker/recipes/docker-compose.yml build gosu tini vsi
+mockdc -f ${TESTDIR}/docker-compose.yml build"
+
+  [[ $("${juste}" build) =~ ${ans} ]]
   [ "$("${juste}" build example)" = "mockdc -f ${TESTDIR}/docker-compose.yml build example" ]
 
   [[ $("${juste}" -n run example) =~ docker-compose\ -f\ ${TESTDIR}/docker-compose\.yml\ -f\ (.*)\ run\ --rm\ example ]]
@@ -125,6 +134,14 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
       - ${TESTDIR}/new-data:/data
+    environment:
+      - JTEST_DATA_DIR_HOST=${TESTDIR}/new-data
+      - JTEST_DATA_DIR=/data
+      - JTEST_SOURCE_DIR_HOST=${TESTDIR}
+      - JTEST_SOURCE_DIR=/src
+  example2:
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
     environment:
       - JTEST_DATA_DIR_HOST=${TESTDIR}/new-data
       - JTEST_DATA_DIR=/data
@@ -146,7 +163,6 @@ begin_test "New Just no docker"
   [ "$("${juste}" --wrap bash -c 'echo $JTEST_CWD')" = "${TESTDIR}" ]
 
   export PATH="${TESTDIR}:${PATH}"
-  . setup.env
 
   uwecho '#!/usr/bin/env bash
           echo mockg++ "${@}"' > g++
@@ -173,7 +189,6 @@ begin_test "New just instructions test (git)"
                            --prefix JTEST \
                            --project-dir "${TESTDIR}" \
                            --justfile "j.u.s.t  f i'l\"e" \
-                           --setupfile "set u.p  f i'l\"e" \
                            --project-name "je.  t e's\"t" \
                            --app yaan \
                            --repo tmp)"
@@ -191,8 +206,6 @@ begin_test "New juste docker test"
 
   "${juste}" --new --continue --no-use-vsi --defaults \
                    --app yaan --repo tmp
-
-  . setup.env
 
   "${juste}" build
 
