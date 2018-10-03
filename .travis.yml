@@ -6,6 +6,9 @@ install:
 script:
   - pyinstaller --workpath ./build/macos just.spec
 
+script:
+  - source setup.env && just test
+
 deploy:
   provider: releases
   api_key:

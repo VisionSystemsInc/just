@@ -106,7 +106,7 @@ function caseify()
       Just-docker-compose run wine_gui ${@+"${@}"} &
       extra_args+=$#
       ;;
-    run_musl) # Compile the linux musl binary
+    run_musl) # Run musl linux
       Just-docker-compose run musl ${@+"${@}"}
       extra_args+=$#
       ;;
