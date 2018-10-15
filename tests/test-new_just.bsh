@@ -64,7 +64,7 @@ begin_test "juste --new"
 # mockd rm mockd create atest/btest:yaan_$(id -u -n)" ]
   [ "$("${juste}" build example)" = "mockdc -f ${TESTDIR}/docker-compose.yml build example" ]
 
-  [[ $("${juste}" -n run yaan) =~ docker-compose\ -f\ ${TESTDIR}/docker-compose\.yml\ -f\ (.*)\ run\ --rm\ yaan ]]
+  [[ $("${juste}" -n run yaan) =~ docker-compose\ -f\ ${TESTDIR}/docker-compose\.yml\ -f\ (.*)\ run\ --rm\ --service-ports\ yaan ]]
 
   tmp_file="${BASH_REMATCH[1]}"
 
@@ -77,22 +77,7 @@ services:
     ans+="      - /tmp/.X11-unix:/tmp/.X11-unix:ro
 "
   fi
-  ans+="      - $(real_path "${TESTDIR}")/new-data:/data
-    environment:
-      - JTEST_DATA_DIR_HOST=${TESTDIR}/new-data
-      - JTEST_DATA_DIR=/data
-      - JTEST_SOURCE_DIR_HOST=${TESTDIR}
-      - JTEST_SOURCE_DIR=/src
-  yaan2:
-"
-  if [ "${VSI_OS}" = "linux" ]; then
-    ans+="    volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix:ro
-"
-  fi
   ans+="    environment:
-      - JTEST_DATA_DIR_HOST=${TESTDIR}/new-data
-      - JTEST_DATA_DIR=/data
       - JTEST_SOURCE_DIR_HOST=${TESTDIR}
       - JTEST_SOURCE_DIR=/src"
 
@@ -101,7 +86,7 @@ services:
   rm "${tmp_file}"
 
   # Test clean venv when volume exists
-  [ "$("${juste}" clean venv)" = "mockd volume rm testpro_venv" ]
+  [ "$("${juste}" docker-compose clean venv)" = "mockd volume rm testpro_venv" ]
 
 
   # Test clean venv when volume doesn't exist
@@ -109,7 +94,7 @@ services:
           echo mockd "${@}"
           exit 1' > ss/docker
   chmod 755 ss/docker
-  [ "$("${juste}" clean venv 2>&1)" = "testpro_venv already removed" ]
+  [ "$("${juste}" docker-compose clean venv 2>&1)" = "testpro_venv already removed" ]
 )
 end_test
 
@@ -132,7 +117,7 @@ mockdc -f ${TESTDIR}/docker-compose.yml build"
   [[ $("${juste}" build) =~ ${ans} ]]
   [ "$("${juste}" build example)" = "mockdc -f ${TESTDIR}/docker-compose.yml build example" ]
 
-  [[ $("${juste}" -n run example) =~ docker-compose\ -f\ ${TESTDIR}/docker-compose\.yml\ -f\ (.*)\ run\ --rm\ example ]]
+  [[ $("${juste}" -n run example) =~ docker-compose\ -f\ ${TESTDIR}/docker-compose\.yml\ -f\ (.*)\ run\ --rm\ --service-ports\ example ]]
 
   tmp_file="${BASH_REMATCH[1]}"
 
@@ -145,22 +130,7 @@ services:
     ans+="      - /tmp/.X11-unix:/tmp/.X11-unix:ro
 "
   fi
-  ans+="      - $(real_path "${TESTDIR}")/new-data:/data
-    environment:
-      - JTEST_DATA_DIR_HOST=${TESTDIR}/new-data
-      - JTEST_DATA_DIR=/data
-      - JTEST_SOURCE_DIR_HOST=${TESTDIR}
-      - JTEST_SOURCE_DIR=/src
-  example2:
-"
-  if [ "${VSI_OS}" = "linux" ]; then
-    ans+="    volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix:ro
-"
-  fi
   ans+="    environment:
-      - JTEST_DATA_DIR_HOST=${TESTDIR}/new-data
-      - JTEST_DATA_DIR=/data
       - JTEST_SOURCE_DIR_HOST=${TESTDIR}
       - JTEST_SOURCE_DIR=/src"
 

@@ -161,23 +161,7 @@ function caseify()
       (justify clean all)
       ;;
     clean_all) # Delete all local volumes
-      (justify clean venv wine)
-      ;;
-    clean_wine) # Delete wine home directory
-      if docker volume inspect "${COMPOSE_PROJECT_NAME}_wine_home" &> /dev/null; then
-        Docker volume rm "${COMPOSE_PROJECT_NAME}_wine_home"
-      else
-        echo "${COMPOSE_PROJECT_NAME}_wine_home already removed"
-      fi
-      ;;
-    clean_venv) # Delete the virtual environment volume. The next container \
-                # to use this volume will automatically copy the contents from \
-                # the image.
-      if docker volume inspect "${COMPOSE_PROJECT_NAME}_venv" &> /dev/null; then
-        Docker volume rm "${COMPOSE_PROJECT_NAME}_venv"
-      else
-        echo "${COMPOSE_PROJECT_NAME}_venv already removed"
-      fi
+      (justify docker-compose clean venv docker-compose clean wine)
       ;;
     upload_release) # Upload a new release to github - $1 - release name
       ${DRYRUN} hub release create -a "${JUST_CWD}/dist/just-Darwin-x86_64" \
