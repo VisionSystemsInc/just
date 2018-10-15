@@ -2,7 +2,7 @@
 
 |Linux|Windows|macos|
 |--|--|--|
-|[![CircleCI](https://circleci.com/gh/VisionSystemsInc/just.svg?style=shield)](https://circleci.com/gh/VisionSystemsInc/vsi_common)|[![Build status](https://ci.appveyor.com/api/projects/status/qapo0xmd67xskhm9/branch/master?svg=true)](https://ci.appveyor.com/project/andyneff/just/branch/master)|[![Build Status](https://travis-ci.org/VisionSystemsInc/just.svg?branch=master)](https://travis-ci.org/VisionSystemsInc/just)|
+|[![CircleCI](https://circleci.com/gh/VisionSystemsInc/just.svg?style=shield)](https://circleci.com/gh/VisionSystemsInc/just)|[![Build status](https://ci.appveyor.com/api/projects/status/qapo0xmd67xskhm9/branch/master?svg=true)](https://ci.appveyor.com/project/andyneff/just/branch/master)|[![Build Status](https://travis-ci.org/VisionSystemsInc/just.svg?branch=master)](https://travis-ci.org/VisionSystemsInc/just)|
 
 
 `just`, and its associated Justfile, is a harness written in bash designed to
