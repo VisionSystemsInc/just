@@ -23,7 +23,7 @@ function caseify()
         Docker-compose "${just_arg}" ${@+"${@}"}
         extra_args+=$#
       else
-        (justify clean venv)
+        (justify docker-compose clean venv)
         (justify build_recipes vsi gosu tini tini-musl pipenv)
         if [ "${VSI_OS}" == "windows" ]; then
           Docker-compose build
