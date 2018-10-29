@@ -8,31 +8,24 @@
 `just`, and its associated Justfile, is a harness written in bash designed to
 make developing/running code easier.
 
-- `just` is a collection of scripts created that easily run any number of
-  "targets". Imagine a directory of scripts; this directory will be replaced
-  by a single `Justfile` similar to a Makefile (minus dependencies and timestamps),
-  but in the language of bash instead of make.
-- There is an emphasis on features that assist in running docker-compose to
-  handle corner cases that can't be solved blindly in the sandbox provided by
-  docker. E.g.:
+- `just` is a collection of scripts created that easily run any number of "targets". Imagine a directory of scripts; this directory will be replaced by a single `Justfile` similar to a Makefile (minus dependencies and timestamps), but in the language of bash instead of make.
+- There is an emphasis on features that assist in running docker-compose to handle corner cases that can't be solved blindly in the sandbox provided by docker. E.g.:
   - matching host user and group ids
   - using nfs mounts with squash root.
 - There are two ways to use `just`
-  - The easiest way to interface with `just` is to add vsi_common as a submodule
-    to your project. This exposes all the internals for code development
-  - You can also download the `just` executable in the Releases section, and put
-    the executable in your system path.
+  - The easiest way to interface with `just` is to add vsi_common as a submodule to your project. This exposes all the internals for code development
+  - You can also download the `just` executable in the Releases section, and put the executable in your system path.
 - To get `juste` (The executable version of `just`)
    1. Download the latest just from the [release page](https://github.com/VisionSystemsInc/just/releases)
    2. Put the just exectuable in your path and add execute permissions
-   
+
    - Example (you will need to update version number and platform):
 
     ```
     sudo curl -L https://github.com/VisionSystemsInc/just/releases/download/0.0.10/juste-Linux-x86_64 -o /usr/local/bin/juste
     chmod 755 /usr/local/bin/juste
     ```
-    
+
     When using `juste`, replace any `just` command in the documentation with `juste`
 
 - To run the new just wizard to add `just` to your project, `cd` into your project directory and run:
@@ -108,9 +101,9 @@ make developing/running code easier.
     - Auto determine docker-compose version
 - A docker entrypoint to ease some of the more complicated features of `Docker-compose`/`Just-docker-compose`
     - Create a user with the same UIDs, GIDs, name, home dir, etc... as the host
-      - Avoids permission issues when creating files in a volume and facilitates running GUIs
-    - Set up symlinks to the NFS volumes
-    - Replaces environment variables containing `^//` and `://` with single `/` versions. This is handle the Git for Windows workarounds that require `//` to prevent path translation. On rare occations, the `//` cause problem for software inside the docker and this feature corrects this
+    - `Just-docker-compose` only: Avoids permission issues when creating files in a volume and facilitates running GUIs
+    - `Just-docker-compose` only: Set up symlinks to the NFS volumes
+    - `Just-docker-compose` only: Replaces environment variables containing `^//` and `://` with single `/` versions. This is handle the Git for Windows workarounds that require `//` to prevent path translation. On rare occations, the `//` cause problem for software inside the docker and this feature corrects this
       - The variable `JUST_NO_PATH_CONV` can be set to a regex pattern for variable names that are not to have the correction applied
 - Designed to support both the traditional "run and discard" approach to dockers, and long running interactive development containers.
 - `DOCKER`, `DOCKER_COMPOSE`, `NVIDIA_DOCKER` environment variables for specifying the docker executables
@@ -119,4 +112,4 @@ make developing/running code easier.
 
 ## Alpine support
 
-Alpine support is experimental and buggy, to say the least. You at least need to have `bash` installed in order for just to work in alpine. You currently need `ncurses` installed for some of the more advanced features
+Alpine support is experimental and buggy, to say the least. You at least need to have `bash` installed in order for just to work in alpine. You currently requires `ncurses` to be installed for some of the more advanced features
