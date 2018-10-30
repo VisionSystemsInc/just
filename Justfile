@@ -35,8 +35,7 @@ function caseify()
         tar xf makeself.tar.gz --strip-components=1; \
         rm makeself.tar.gz
 
-        sed '1,/^while true/s|^while true|while false|' "${JUST_CWD}/build/makeself-header.sh" > "${JUST_CWD}/build/makeself-header_just.sh"
-        sed -i '1,/^quiet="n"/s|^quiet="n"|quiet="y"|' "${JUST_CWD}/build/makeself-header_just.sh"
+        sed '1,/^while true/s|^while true|while false|; 1,/^quiet="n"/s|^quiet="n"|quiet="y"|' "${JUST_CWD}/build/makeself-header.sh" > "${JUST_CWD}/build/makeself-header_just.sh"
       popd &> /dev/null
       ;;
 
@@ -71,6 +70,9 @@ function caseify()
     clean) # Remove all binary artifacts
       if [ -x "${JUST_CWD}/dist" ]; then
         rm -r "${JUST_CWD}/dist"
+      fi
+      if [ -x "${JUST_CWD}/build" ]; then
+        rm -r "${JUST_CWD}/build"
       fi
       ;;
     upload_release) # Upload a new release to github - $1 - release name

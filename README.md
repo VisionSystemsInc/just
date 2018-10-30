@@ -113,3 +113,7 @@ make developing/running code easier.
 ## Alpine support
 
 Alpine support is experimental and buggy, to say the least. You at least need to have `bash` installed in order for just to work in alpine. You currently requires `ncurses` to be installed for some of the more advanced features
+
+## Cygwin support
+
+`just` and `juste` do not currently work in cygwin, as the cygwin requires different line endings than git for windows, and this is not compatible with the current `.gitattributes` and the way `makeself` is called. [Further development would be needed to add cygwin support](https://stackoverflow.com/q/37805181/4166604).
