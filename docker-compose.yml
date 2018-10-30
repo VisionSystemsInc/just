@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: docker/makeself.Dockerfile
       args:
-        - MAKESELF_VERSION="${JUST_MAKESELF_VERSION}"
+        - MAKESELF_VERSION=${JUST_MAKESELF_VERSION}
     # prevent different users from clobbering each others images
     image: ${JUST_DOCKER_REPO}:makeself
     environment:

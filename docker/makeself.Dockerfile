@@ -3,6 +3,8 @@ FROM vsiri/recipe:vsi as vsi
 
 FROM alpine:3.8
 
+SHELL ["/usr/bin/env", "sh", "-euxvc"]
+
 RUN apk add --no-cache bash
 
 ARG MAKESELF_VERSION=release-2.4.0
