@@ -15,4 +15,10 @@ export JUST_FROZEN=1
 
 # Go BACK to the original dir
 cd "${USER_PWD}"
-just ${@+"${@}"}
+juste()
+{
+  just ${@+"${@}"}
+}
+export -f juste
+
+exec juste ${@+"${@}"}
