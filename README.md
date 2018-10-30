@@ -19,10 +19,11 @@ make developing/running code easier.
    1. Download the latest just from the [release page](https://github.com/VisionSystemsInc/just/releases)
    2. Put the just exectuable in your path and add execute permissions
 
-   - Example (you will need to update version number and platform):
+   - Example (you will need to update version number):
 
     ```
-    sudo curl -L https://github.com/VisionSystemsInc/just/releases/download/0.0.10/juste-Linux-x86_64 -o /usr/local/bin/juste
+    cd /usr/local/bin
+    sudo curl -LO https://github.com/VisionSystemsInc/just/releases/download/0.0.12/juste
     chmod 755 /usr/local/bin/juste
     ```
 
@@ -117,3 +118,11 @@ Alpine support is experimental and buggy, to say the least. You at least need to
 ## Cygwin support
 
 `just` and `juste` do not currently work in cygwin, as the cygwin requires different line endings than git for windows, and this is not compatible with the current `.gitattributes` and the way `makeself` is called. [Further development would be needed to add cygwin support](https://stackoverflow.com/q/37805181/4166604).
+
+## Compiling juste
+
+1. Setup environment: `. setup.env`
+1. Build the docker image: `just build`
+2. Compile `juste`: `just compile make`
+3. A new `juste` is in: `./dist/juste`
+4. Run tests: `just test`
