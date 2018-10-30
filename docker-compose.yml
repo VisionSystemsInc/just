@@ -1,12 +1,14 @@
 version: "2.4"
 
 services:
-  linux: &linux_anchor
+  makeself:
     build:
       context: .
-      dockerfile: docker/linux.Dockerfile
+      dockerfile: docker/makeself.Dockerfile
+      args:
+        - MAKESELF_VERSION=${JUST_MAKESELF_VERSION}
     # prevent different users from clobbering each others images
-    image: ${JUST_DOCKER_REPO}:linux
+    image: ${JUST_DOCKER_REPO}:makeself
     environment:
       # Variables for docker_entrypoint.bsh
       DOCKER_UID: ${JUST_UID}
@@ -14,80 +16,7 @@ services:
       DOCKER_GROUP_NAMES: ${JUST_GROUP_NAMES}
       DOCKER_USERNAME: user
     volumes:
-      - &linux_volume1
-        type: bind
+      - type: bind
         source: ${JUST_SOURCE_DIR}
         target: ${JUST_SOURCE_DIR_DOCKER}
-      - type: volume
-        source: venv
-        target: /venv
     platform: linux
-
-  musl:
-    <<: *linux_anchor
-    build:
-      context: .
-      dockerfile: docker/musl.Dockerfile
-    image: ${JUST_DOCKER_REPO}:musl
-    volumes:
-      - *linux_volume1
-
-  windows:
-    build:
-      context: .
-      dockerfile: docker/windows.Dockerfile
-    image: ${JUST_DOCKER_REPO}:windows
-    platform: windows
-    volumes:
-      - *linux_volume1
-    platform: linux
-
-  wine: &wine
-    build:
-      context: .
-      dockerfile: docker/wine.Dockerfile
-    image:
-      just_wine
-    cap_add:
-      - SYS_PTRACE
-    working_dir: /src
-    environment:
-      - DOCKER_UID=${JUST_UID}
-      - DOCKER_GIDS=${JUST_GIDS}
-      - DOCKER_GROUP_NAMES=${JUST_GROUP_NAMES}
-      - DOCKER_USERNAME=user
-      - USER_ID=${JUST_UID-1000}
-      - VSI_COMMON_IS_POWERSHELL=1
-      - WINEDEBUG=fixme-all,err-winediag,err-menubuilder
-    volumes:
-      - type: volume
-        source: wine_home
-        target: /home/wine
-      - *linux_volume1
-    platform: linux
-    # command: -c "cd /z/vsi_common; bash -l"
-  wine_gui:
-    <<: *wine
-    environment:
-      - DOCKER_UID=${JUST_UID}
-      - DOCKER_GIDS=${JUST_GIDS}
-      - DOCKER_GROUP_NAMES=${JUST_GROUP_NAMES}
-      - DOCKER_USERNAME=user
-      - USER_ID=${JUST_UID-1000}
-      - VSI_COMMON_IS_POWERSHELL=1
-      - WINEDEBUG=fixme-all,err-winediag,err-menubuilder
-      - DISPLAY
-    volumes:
-      - type: volume
-        source: wine_home
-        target: /home/.user_wine
-      - *linux_volume1
-      - type: bind
-        read_only: true
-        target: /tmp/.X11-unix
-        source: /tmp/.X11-unix
-    # command: []
-
-volumes:
-  wine_home:
-  venv:

@@ -26,7 +26,7 @@ jobs:
           name: Build artifacts
           command: |
             . setup.env
-            just compile linux wine musl
+            just run make
 
       - run:
           name: Smuggle artifacts back
@@ -35,8 +35,6 @@ jobs:
 
       - run:
           name: Run unit tests
-          environment:
-            LDCONFIG: /usr/glibc-compat/sbin/ldconfig
           command: |
             git config --global user.email "you@example.com"
             git config --global user.name "Your Name"

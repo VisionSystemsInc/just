@@ -5,6 +5,4 @@
 *.bsh eol=lf
 *.py eol=lf
 *.env eol=lf
-wrap eol=lf
 .justplugins eol=lf
-

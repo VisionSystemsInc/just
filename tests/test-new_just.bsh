@@ -5,28 +5,7 @@
 . common_source.sh
 . uwecho.bsh
 
-setup()
-{
-  case "${VSI_OS}" in
-    darwin)
-      juste="${JUST_CWD}/dist/juste-Darwin-x86_64"
-      ;;
-    windows)
-      juste="${JUST_CWD}/dist/juste-Windows-x86_64"
-      ;;
-    linux)
-      if [ "${VSI_MUSL}" = "0" ]; then
-        juste="${JUST_CWD}/dist/juste-Linux-x86_64"
-      else
-        juste="${JUST_CWD}/dist/juste-Linux-musl-x86_64"
-      fi
-      ;;
-    *)
-      echo "Unknown os"
-      return 1
-      ;;
-  esac
-}
+: ${juste="${JUST_CWD}/dist/juste"}
 
 begin_test "juste --new"
 (
@@ -78,8 +57,14 @@ services:
 "
   fi
   ans+="    environment:
-      - JTEST_SOURCE_DIR_HOST=${TESTDIR}
-      - JTEST_SOURCE_DIR=/src"
+"
+
+  if [ "${OS-}" = "Windows_NT" ]; then
+    ans+=$'      - JUST_HOST_WINDOWS=1\n'
+  fi
+
+  ans+="      - JTEST_SOURCE_DIR_HOST=${TESTDIR}
+      - JTEST_SOURCE_DIR=${VSI_PATH_ESC}/src"
 
   [ "$(cat "${tmp_file}")" = "${ans}" ]
 
@@ -131,8 +116,14 @@ services:
 "
   fi
   ans+="    environment:
-      - JTEST_SOURCE_DIR_HOST=${TESTDIR}
-      - JTEST_SOURCE_DIR=/src"
+"
+
+  if [ "${OS-}" = "Windows_NT" ]; then
+    ans+=$'      - JUST_HOST_WINDOWS=1\n'
+  fi
+
+  ans+="      - JTEST_SOURCE_DIR_HOST=${TESTDIR}
+      - JTEST_SOURCE_DIR=${VSI_PATH_ESC}/src"
 
   [ "$(cat "${tmp_file}")" = "${ans}" ]
 
@@ -169,13 +160,21 @@ begin_test "New just instructions test (git)"
 (
   setup_test
 
+  if [ "${OS-}" = "Windows_NT" ]; then
+    # git submodule add on windows won't handle "??? This works on cmd, but not bash.
+    # MSYS2_ARG_CONV_EXCL=* did not fix it, therefore it is not a path mangling issue
+    tough_name=""
+  else
+    tough_name="\""
+  fi
+
   # Evaluate git commands in stdout
   eval "$("${juste}" --new --continue --no-use-vsi \
                            --use-docker --use-pipenv \
                            --prefix JTEST \
                            --project-dir "${TESTDIR}" \
-                           --justfile "j.u.s.t  f i'l\"e" \
-                           --project-name "je.  t e's\"t" \
+                           --justfile "j.u.s.t  f i'l${tough_name}e" \
+                           --project-name "je.  t e's${tough_name}t" \
                            --app yaan \
                            --repo tmp)"
 
@@ -185,7 +184,14 @@ begin_test "New just instructions test (git)"
 end_test
 
 : ${DOCKER=docker}
-command -v "${DOCKER}" &>/dev/null || skip_next_test
+if command -v "${DOCKER}" &>/dev/null; then
+  # Still can't get CI to run LCOW
+  if [ "${OS-}" = "Windows_NT" ] && ! docker run alpine:3.8 &> /dev/null; then
+    skip_next_test
+  fi
+else
+  skip_next_test
+fi
 begin_test "New juste docker test"
 (
   setup_test

@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -eu
+
+JUSTE_DIR="${PWD}"
+export PATH="${JUSTE_DIR}/linux:${PATH}"
+
+if [ -n "${VSI_COMMON_DIR+set}" ] && [ ! -d "${VSI_COMMON_DIR}" ]; then
+  echo 'ERROR: the environment variable VSI_COMMON_DIR is set to a directory that does not exist;'
+  echo '       please either unset or correct it'
+  exit 1
+fi
+: "${VSI_COMMON_DIR="${JUSTE_DIR}"}"
+export JUST_FROZEN=1
+
+# Go BACK to the original dir
+cd "${USER_PWD}"
+juste()
+{
+  just ${@+"${@}"}
+}
+export -f juste
+
+exec just ${@+"${@}"}
