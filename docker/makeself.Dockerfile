@@ -15,6 +15,12 @@ RUN apk add --no-cache --virtual .deps wget tar; \
     wget https://github.com/megastep/makeself/archive/${MAKESELF_VERSION}/makeself.tar.gz; \
     tar xf makeself.tar.gz --strip-components=1; \
     rm makeself.tar.gz; \
+
+    # Disable arg parsing by makeself executable
+    sed '1,/^while true/s|^while true|while false|' "/makeself/makeself-header.sh" > "/makeself/makeself-header_just.sh"; \
+    # Make executable quietly extract
+    sed -i '1,/^quiet="n"/s|^quiet="n"|quiet="y"|' "/makeself/makeself-header_just.sh"; \
+
     apk del .deps
 
 COPY --from=gosu /usr/local/bin/gosu /usr/local/bin/gosu

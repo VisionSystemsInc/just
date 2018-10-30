@@ -34,6 +34,9 @@ function caseify()
         curl -LO "https://github.com/megastep/makeself/archive/${JUST_MAKESELF_VERSION}/makeself.tar.gz"
         tar xf makeself.tar.gz --strip-components=1; \
         rm makeself.tar.gz
+
+        sed '1,/^while true/s|^while true|while false|' "${JUST_CWD}/build/makeself-header.sh" > "${JUST_CWD}/build/makeself-header_just.sh"
+        sed -i '1,/^quiet="n"/s|^quiet="n"|quiet="y"|' "${JUST_CWD}/build/makeself-header_just.sh"
       popd &> /dev/null
       ;;
 
@@ -47,9 +50,7 @@ function caseify()
       ;;
     compile_local) # Compile the binary locally (for testing)
       mkdir -p "${JUST_CWD}/dist"
-      "${JUST_CWD}/build/makeself.sh" --tar-extra "--exclude=.git --exclude=docs ../.juste_wrapper" --noprogress --nomd5 --nocrc --nox11 --keep-umask --export-conf vsi_common/ "${JUST_CWD}/dist/juste" juste_label ./.juste_wrapper
-      sed -i '1,/^while true/s|^while true|while false|' ${JUST_CWD}/dist/juste
-      sed -i '1,/^quiet="n"/s|^quiet="n"|quiet="y"|' ${JUST_CWD}/dist/juste
+      "${JUST_CWD}/build/makeself.sh" --tar-extra "--exclude=.git --exclude=docs ../.juste_wrapper" --noprogress --nomd5 --nocrc --nox11 --keep-umask --header "${JUST_CWD}/build/makeself-header_just.sh" vsi_common/ "${JUST_CWD}/dist/juste" juste_label ./.juste_wrapper
       ;;
 
     setup) # Run any special command to set up the environment for the first \

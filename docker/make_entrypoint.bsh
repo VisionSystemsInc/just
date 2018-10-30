@@ -27,11 +27,7 @@ filter_docker_variables
 if [ "$1" = "makeself" ]; then
   cd /src
   mkdir -p /src/dist
-  /makeself/makeself.sh --tar-extra "--exclude=.git --exclude=docs ../.juste_wrapper" --noprogress --nomd5 --nocrc --nox11 --keep-umask --export-conf vsi_common/ /src/dist/juste juste_label ./.juste_wrapper
-  # Disable arg parsing by makeself executable
-  sed -i '1,/^while true/s|^while true|while false|' /src/dist/juste
-  # Make executable quiet
-  sed -i '1,/^quiet="n"/s|^quiet="n"|quiet="y"|' /src/dist/juste
+  /makeself/makeself.sh --tar-extra "--exclude=.git --exclude=docs ../.juste_wrapper" --noprogress --nomd5 --nocrc --nox11 --keep-umask --header /makeself/makeself-header_just.sh vsi_common/ /src/dist/juste juste_label ./.juste_wrapper
 else
   exec "${@}"
 fi
