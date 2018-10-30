@@ -14,9 +14,7 @@ install:
   # update mysy2
   - C:\msys64\usr\bin\bash -lc "pacman --needed --noconfirm -Sy pacman-mirrors"
   - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Sy"
-  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -S autoconf automake bison flex"
   - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -S git"
-  - C:\msys64\usr\bin\bash -lc "cat ~/.bashrc ~/.bash_profile"
   - bash -c "cd $APPVEYOR_BUILD_FOLDER && source setup.env && just build local"
 
 # This is how you select "Script mode" instead of "MSBuild" mode. There MUST
