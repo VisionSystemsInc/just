@@ -57,7 +57,13 @@ services:
 "
   fi
   ans+="    environment:
-      - JTEST_SOURCE_DIR_HOST=${TESTDIR}
+"
+
+  if [ "${OS-}" = "Windows_NT" ]; then
+    ans += $'      - JUST_HOST_WINDOWS=1\n'
+  fi
+
+  ans+="      - JTEST_SOURCE_DIR_HOST=${TESTDIR}
       - JTEST_SOURCE_DIR=${VSI_PATH_ESC}/src"
 
   [ "$(cat "${tmp_file}")" = "${ans}" ]
@@ -110,7 +116,13 @@ services:
 "
   fi
   ans+="    environment:
-      - JTEST_SOURCE_DIR_HOST=${TESTDIR}
+"
+
+  if [ "${OS-}" = "Windows_NT" ]; then
+    ans += $'      - JUST_HOST_WINDOWS=1\n'
+  fi
+
+  ans+="      - JTEST_SOURCE_DIR_HOST=${TESTDIR}
       - JTEST_SOURCE_DIR=${VSI_PATH_ESC}/src"
 
   [ "$(cat "${tmp_file}")" = "${ans}" ]

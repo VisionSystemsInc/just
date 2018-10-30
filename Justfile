@@ -49,7 +49,13 @@ function caseify()
       ;;
     compile_local) # Compile the binary locally (for testing)
       mkdir -p "${JUST_CWD}/dist"
-      "${JUST_CWD}/build/makeself.sh" --tar-extra "--exclude=.git --exclude=docs ../.juste_wrapper" --noprogress --nomd5 --nocrc --nox11 --keep-umask --header "${JUST_CWD}/build/makeself-header_just.sh" vsi_common/ "${JUST_CWD}/dist/juste" juste_label ./.juste_wrapper
+      ${DRYRUN} "${JUST_CWD}/build/makeself.sh" --tar-extra "--exclude=.git --exclude=docs ../.juste_wrapper" --noprogress --nomd5 --nocrc --nox11 --keep-umask --header "${JUST_CWD}/build/makeself-header_just.sh" vsi_common/ "${JUST_CWD}/dist/juste" juste_label ./.juste_wrapper
+      ;;
+    compile_darwin) # Compile the binary locally (for testing on darwin)
+      mkdir -p "${JUST_CWD}/dist"
+      cp "${JUST_CWD}/.juste_wrapper" "${JUST_CWD}/vsi_common/"
+      ${DRYRUN} "${JUST_CWD}/build/makeself.sh" --tar-extra "--exclude=.git --exclude=docs" --noprogress --nomd5 --nocrc --nox11 --keep-umask --header "${JUST_CWD}/build/makeself-header_just.sh" vsi_common/ "${JUST_CWD}/dist/juste" juste_label ./.juste_wrapper
+      rm "${JUST_CWD}/vsi_common/.juste_wrapper"
       ;;
 
     setup) # Run any special command to set up the environment for the first \

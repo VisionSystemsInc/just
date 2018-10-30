@@ -4,7 +4,7 @@ install:
   - source setup.env && just build local
 
 script:
-  - source setup.env && just compile local
+  - source setup.env && just compile darwin
   - git config --global user.email "you@example.com"
   - git config --global user.name "Your Name"
   - source setup.env && just test
