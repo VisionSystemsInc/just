@@ -7,8 +7,7 @@ source "${VSI_COMMON_DIR:-/vsi}/linux/just_env" "${JUST_SOURCE_DIR-/src}/just.en
 if [ "${ALREADY_RUN_ONCE+set}" != "set" ]; then
   # create the user and associated groups and handle nfs symlinks
   source "${VSI_COMMON_DIR}/linux/elements.bsh"
-  join_a venvs /venv/*
-  JUST_DOCKER_ENTRYPOINT_CHOWN_DIRS="${venvs}" \
+
   /usr/bin/env bash /vsi/linux/docker_entrypoint.bsh
 
   # Rerun entrypoint as user now, (skipping the root part via ALREADY_RUN_ONCE)
@@ -25,19 +24,14 @@ source "${VSI_COMMON_DIR}/linux/docker_functions.bsh"
 # Remove duplicate JUST_*_DOCKER variables
 filter_docker_variables
 
-
-if [ "$1" == "linux" ]; then
-  if [ ! -s "${JUST_SOURCE_DIR}/Pipfile.lock" ]; then
-    pipenv lock
-  fi
-  cd "${JUST_SOURCE_DIR}"
-  pipenv run pyinstaller --workpath=./build/just-linux just.spec
-elif [ "$1" == "nopipenv" ]; then
-  shift 1
-  exec "${@}"
+if [ "$1" = "makeself" ]; then
+  cd /src
+  mkdir -p /src/dist
+  /makeself/makeself.sh --tar-extra "--exclude=.git --exclude=docs ../.juste_wrapper" --noprogress --nomd5 --nocrc --nox11 --keep-umask --export-conf vsi_common/ /src/dist/juste juste_label ./.juste_wrapper
+  # Disable arg parsing by makeself executable
+  sed -i '1,/^while true/s|^while true|while false|' /src/dist/juste
+  # Make executable quiet
+  sed -i '1,/^quiet="n"/s|^quiet="n"|quiet="y"|' /src/dist/juste
 else
-  if [ ! -s "${JUST_SOURCE_DIR}/Pipfile.lock" ]; then
-    pipenv lock
-  fi
-  exec pipenv run "${@}"
+  exec "${@}"
 fi

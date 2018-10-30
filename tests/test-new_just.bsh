@@ -5,28 +5,7 @@
 . common_source.sh
 . uwecho.bsh
 
-setup()
-{
-  case "${VSI_OS}" in
-    darwin)
-      juste="${JUST_CWD}/dist/juste-Darwin-x86_64"
-      ;;
-    windows)
-      juste="${JUST_CWD}/dist/juste-Windows-x86_64"
-      ;;
-    linux)
-      if [ "${VSI_MUSL}" = "0" ]; then
-        juste="${JUST_CWD}/dist/juste-Linux-x86_64"
-      else
-        juste="${JUST_CWD}/dist/juste-Linux-musl-x86_64"
-      fi
-      ;;
-    *)
-      echo "Unknown os"
-      return 1
-      ;;
-  esac
-}
+: ${juste="${JUST_CWD}/dist/juste"}
 
 begin_test "juste --new"
 (
@@ -186,6 +165,7 @@ end_test
 
 : ${DOCKER=docker}
 command -v "${DOCKER}" &>/dev/null || skip_next_test
+[ "${OS-}" = "Windows_NT" ] && skip_next_test # Still can't get CI to run LCOW
 begin_test "New juste docker test"
 (
   setup_test

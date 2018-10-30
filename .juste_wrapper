@@ -21,4 +21,4 @@ juste()
 }
 export -f juste
 
-exec juste ${@+"${@}"}
+exec just ${@+"${@}"}
