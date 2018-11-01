@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-if [[ "${BASH_SOURCE[0]}" != "${0}" ]]; then # If being sourced
-  set -euE
-fi
-
 source "${VSI_COMMON_DIR}/linux/just_env" "$(dirname "${BASH_SOURCE[0]}")"/'just'.env
 cd "${JUST_CWD}"
 
