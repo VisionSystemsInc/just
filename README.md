@@ -93,7 +93,7 @@ make developing/running code easier.
     - Swapping environment variables names. `${PREFIX}_*` and `${PREFIX}_*_DOCKER` become `${PREFIX}_*_HOST` and `${PREFIX}_*` in the container, respectively. This makes running the same script in and out of the container a lot easier
       - Can keep the `${PREFIX}_*_DOCKER` version, if you want.
     - `${PREFIX}_.*_HOST` names and values are copied exactly as is. This makes sure the variable has the exact same value in the container as on the host, rather than evaluating it inside the container where the result may be different
-    - Dynamically add additional volumes based off of env vars (`${PREFIX}_${SERVICE_NAME}_VOLUMES`)
+    - Dynamically add additional volumes based off of env vars (`${PREFIX}_VOLUMES`, `${PREFIX}_${SERVICE_NAME}_VOLUMES`, `${PREFIX}_VOLUME_{NUMBER}`, and `${PREFIX}_${SERVICE_NAME}_VOLUME_{NUMBER}`)
       - Special processing for volumes with a source on an NFS filesystem.
         - The NFS root directory is mounted into the container under `${MOUNT_PREFIX}` and the destination is symlinked to the correct location in the entrypoint
       - Solves squash root issue

@@ -40,7 +40,7 @@ function caseify()
       extra_args+=$#
       ;;
 
-    compile_make) # Compile the linux binary
+    compile_make) # Compile the sh binary
       Just-docker-compose run makeself
       ;;
     compile_local) # Compile the binary locally (for testing)
@@ -54,20 +54,21 @@ function caseify()
       rm "${JUST_CWD}/vsi_common/.juste_wrapper"
       ;;
 
-    setup) # Run any special command to set up the environment for the first \
-      # time after checking out the repo. Usually population of volumes/databases \
-      # go here.
-      (justify _sync)
-      ;;
     sync) # Synchronize the many aspects of the project when new code changes \
           # are applied e.g. after "git checkout"
-      (justify _sync)
+      justify _sync
       # Add any extra steps run when syncing when not installing
       ;;
     _sync)
       Docker-compose down
-      (justify git_submodule-update) # For those users who don't remember!
-      (justify build)
+      if [ ! -e "${JUST_CWD}/.just_synced" ]; then
+        # Add any commands here, like initializing a database, etc... that need
+        # to be run the first time sync is run.
+        touch "${JUST_CWD}/.just_synced"
+      fi
+
+      justify git_submodule-update # For those users who don't remember!
+      justify build
       ;;
     clean) # Remove all binary artifacts
       if [ -x "${JUST_CWD}/dist" ]; then
