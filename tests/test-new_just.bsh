@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 : ${VSI_COMMON_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../vsi_common"; pwd)"}
-. "${VSI_COMMON_DIR}/tests/testlib.sh"
+. "${VSI_COMMON_DIR}/tests/testlib.bsh"
 . common_source.sh
 . uwecho.bsh
 
