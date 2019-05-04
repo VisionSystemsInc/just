@@ -117,7 +117,7 @@ function caseify()
           echo -n .
           sleep 10
           rv=0
-          hub ci-status "$(git rev-parse HEAD)" || rv=$?
+          hub ci-status "$(git rev-parse HEAD)" &> /dev/null || rv=$?
         done
         if [ "${rv}" != "0" ]; then
           echo "${RED}CI Tests failed${NC}, please fix and try again"
