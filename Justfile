@@ -7,6 +7,7 @@ cd "${JUST_CWD}"
 source "${VSI_COMMON_DIR}/linux/docker_functions.bsh"
 source "${VSI_COMMON_DIR}/linux/just_docker_functions.bsh"
 source "${VSI_COMMON_DIR}/linux/just_git_functions.bsh"
+source "${VSI_COMMON_DIR}/linux/colors.bsh"
 
 # Main function
 function caseify()
@@ -17,7 +18,7 @@ function caseify()
     build) # Build Docker image
       if [ "$#" -gt "0" ]; then
         Docker-compose "${just_arg}" ${@+"${@}"}
-        extra_args+=$#
+        extra_args=$#
       else
         (justify build_recipes vsi gosu)
         Docker-compose build
@@ -37,7 +38,7 @@ function caseify()
 
     run_make) # Run makeself
       Just-docker-compose run makeself ${@+"${@}"}
-      extra_args+=$#
+      extra_args=$#
       ;;
 
     compile_make) # Compile the linux binary
@@ -77,14 +78,72 @@ function caseify()
         rm -r "${JUST_CWD}/build"
       fi
       ;;
-    upload_release) # Upload a new release to github - $1 - release name
-      ${DRYRUN} hub release create -a "${JUST_CWD}/juste" "${1}"
-      extra_args+=1
+    # upload_release) # Upload a new release to github - $1 - release name
+    #   ${DRYRUN} hub release create -a "${JUST_CWD}/juste" "${1}"
+    #   extra_args=1
+    #   ;;
+
+    release) # Stamp a new release. $1 - release version (e.g. "0.0.1")
+      local version=$1
+
+      if ! git diff-index --quiet HEAD &> /dev/null; then
+        echo "${RED}Repo is dirty${NC}, please commit uncommited changes"
+        exit 1
+      fi
+
+      if [ "$(git rev-parse --abbrev-ref HEAD)" != "master" ]; then
+        echo "${RED}Current just branch is not master${NC}, please fix and try again"
+        exit 1
+      fi
+
+      # TODO: Make BSD compatible
+      sed -i 's|export JUST_VERSION=.*|export JUST_VERSION='"${version}"'|' vsi_common/linux/just_common.bsh
+
+      pushd vsi_common &> /dev/null
+        if [ "$(git rev-parse --abbrev-ref HEAD)" != "master" ]; then
+          echo "${RED}Current vsi_common branch is not master${NC}, please fix and try again"
+          exit 1
+        fi
+
+        git add linux/just_common.bsh
+        git commit -m "Just $version"
+        git push origin master
+        git tag "just_${version}"
+
+        echo "Waiting for CI to pass..."
+        local rv=2
+        while [ "${rv}" = "2" ]; do
+          echo -n .
+          sleep 10
+          rv=0
+          hub ci-status "$(git rev-parse HEAD)" || rv=$?
+        done
+        if [ "${rv}" != "0" ]; then
+          echo "${RED}CI Tests failed${NC}, please fix and try again"
+          exit 1
+        fi
+
+        git push origin "just_${version}"
+      popd &> /dev/null
+
+      git add vsi_common
+      git commit -m "Just ${version}"
+      git tag "${version}"
+      git push origin master "${version}"
+
+      sed -i 's|export JUST_VERSION=.*|export JUST_VERSION='"${version}+1dev"'|' vsi_common/linux/just_common.bsh
+      pushd vsi_common &> /dev/null
+        git add linux/just_common.bsh
+        git commit -m "Just $version+1dev"
+        git push origin master
+      popd &> /dev/null
+
+      extra_args=1
       ;;
 
     test) # Run integration tests
       TESTS_DIR="${JUST_CWD}/tests" "${VSI_COMMON_DIR}/tests/run_tests.bsh" ${@+"${@}"}
-      extra_args+=$#
+      extra_args=$#
       ;;
     *)
       defaultify "${just_arg}" ${@+"${@}"}
