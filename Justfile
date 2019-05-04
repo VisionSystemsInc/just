@@ -79,7 +79,7 @@ function caseify()
         rm -r "${JUST_CWD}/build"
       fi
       ;;
-    # upload_release) # Upload a new release to github - $1 - release name
+    ## upload_release) # Upload a new release to github - $1 - release name
     #   ${DRYRUN} hub release create -a "${JUST_CWD}/juste" "${1}"
     #   extra_args=1
     #   ;;

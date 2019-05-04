@@ -28,8 +28,11 @@ COPY --from=gosu /usr/local/bin/gosu /usr/local/bin/gosu
 RUN chmod u+s /usr/local/bin/gosu
 
 COPY --from=vsi /vsi /vsi
-ADD docker/make_entrypoint.bsh /
+ADD docker/make.Justfile /src/docker/
+ADD just.env /src
+ENV JUSTFILE=/src/docker/make.Justfile \
+    JUST_SETTINGS=/src/just.env
 
-ENTRYPOINT ["bash", "/make_entrypoint.bsh"]
+ENTRYPOINT ["bash", "/vsi/linux/just_entrypoint.sh"]
 
 CMD ["makeself"]

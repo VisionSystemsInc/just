@@ -6,3 +6,4 @@
 *.py eol=lf
 *.env eol=lf
 .justplugins eol=lf
+make.Justfile eol=lf

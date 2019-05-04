@@ -3,3 +3,4 @@
 !vsi_common
 !Pipfile
 !Pipfile.lock
+!just.env

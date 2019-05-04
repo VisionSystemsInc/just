@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-: "$(dirname "${BASH_SOURCE[0]}")"
-. "${VSI_COMMON_DIR:-"${_}"/vsi_common}/linux/Just_wrap" "${_}"/just.env ${@+"${@}"}
