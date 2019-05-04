@@ -106,7 +106,7 @@ function caseify()
         fi
 
         git add linux/just_common.bsh
-        git commit -m "Just $version"
+        git commit -m "Just $version" || :
         git push origin master
         git tag "just_${version}"
 
