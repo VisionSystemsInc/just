@@ -10,7 +10,7 @@
 begin_test "juste --new"
 (
   setup_test
-  "${juste}" --new --continue --no-use-vsi \
+  "${juste}" --new --continue --no-setup-git --no-use-vsi \
                    --use-docker --use-pipenv \
                    --prefix JTEST \
                    --project-dir "${TESTDIR}" \
@@ -169,14 +169,14 @@ begin_test "New just instructions test (git)"
   fi
 
   # Evaluate git commands in stdout
-  eval "$("${juste}" --new --continue --no-use-vsi \
-                           --use-docker --use-pipenv \
-                           --prefix JTEST \
-                           --project-dir "${TESTDIR}" \
-                           --justfile "j.u.s.t  f i'l${tough_name}e" \
-                           --project-name "je.  t e's${tough_name}t" \
-                           --app yaan \
-                           --repo tmp)"
+  "${juste}" --new --continue --setup-git --no-use-vsi \
+             --use-docker --use-pipenv \
+             --prefix JTEST \
+             --project-dir "${TESTDIR}" \
+             --justfile "j.u.s.t  f i'l${tough_name}e" \
+             --project-name "je.  t e's${tough_name}t" \
+             --app yaan \
+             --repo tmp
 
   # The only untracked changes should be the test files err and out
   [ "$(git status --porcelain 2>&1)" == $'?? err\n?? out' ]
