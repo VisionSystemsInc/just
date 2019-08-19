@@ -51,7 +51,7 @@ begin_test "juste --new"
 services:
   yaan:
 "
-  if [ "${VSI_OS}" = "linux" ]; then
+  if [ -d "/tmp/.X11-unix" ]; then
     ans+="    volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
 "
@@ -67,7 +67,7 @@ services:
       - JTEST_SOURCE_DIR=${VSI_PATH_ESC}/src
   yaan_pipenv:
 "
-  if [ "${VSI_OS}" = "linux" ]; then
+  if [ -d "/tmp/.X11-unix" ]; then
     ans+="    volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
 "
@@ -126,7 +126,7 @@ mockdc -f ${TESTDIR}/docker-compose.yml build"
 services:
   example:
 "
-  if [ "${VSI_OS}" = "linux" ]; then
+  if [ -d "/tmp/.X11-unix" ]; then
     ans+="    volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
 "
