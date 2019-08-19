@@ -64,6 +64,22 @@ services:
   fi
 
   ans+="      - JTEST_SOURCE_DIR_HOST=${TESTDIR}
+      - JTEST_SOURCE_DIR=${VSI_PATH_ESC}/src
+  yaan_pipenv:
+"
+  if [ "${VSI_OS}" = "linux" ]; then
+    ans+="    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+"
+  fi
+  ans+="    environment:
+"
+
+  if [ "${OS-}" = "Windows_NT" ]; then
+    ans+=$'      - JUST_HOST_WINDOWS=1\n'
+  fi
+
+  ans+="      - JTEST_SOURCE_DIR_HOST=${TESTDIR}
       - JTEST_SOURCE_DIR=${VSI_PATH_ESC}/src"
 
   [ "$(cat "${tmp_file}")" = "${ans}" ]

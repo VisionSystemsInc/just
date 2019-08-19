@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 
 source "${VSI_COMMON_DIR}/linux/just_env" "$(dirname "${BASH_SOURCE[0]}")"/'just'.env
-cd "${JUST_CWD}"
 
 # Plugins
 source "${VSI_COMMON_DIR}/linux/docker_functions.bsh"
 source "${VSI_COMMON_DIR}/linux/just_docker_functions.bsh"
 source "${VSI_COMMON_DIR}/linux/just_git_functions.bsh"
 source "${VSI_COMMON_DIR}/linux/colors.bsh"
+
+cd "${JUST_CWD}"
 
 # Main function
 function caseify()

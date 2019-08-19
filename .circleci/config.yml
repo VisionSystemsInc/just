@@ -33,13 +33,13 @@ jobs:
           command: |
             docker run --rm -v /root/repo:/src:ro -w /src alpine:3.8 tar c dist | tar x
 
-      # - run:
-      #     name: Run unit tests
-      #     command: |
-      #       git config --global user.email "you@example.com"
-      #       git config --global user.name "Your Name"
-      #       . setup.env
-      #       just test
+      - run:
+          name: Run unit tests
+          command: |
+            git config --global user.email "you@example.com"
+            git config --global user.name "Your Name"
+            . setup.env
+            just test
 
       - store_artifacts:
           path: ./dist
