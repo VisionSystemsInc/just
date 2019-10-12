@@ -1,4 +1,4 @@
-# J.U.S.T. - J.U.S.T. Useful Simple Tasking
+# J.U.S.T. - J.U.S.T. Useful Simple Tasking <img src="https://github.com/andyneff/just_logo/raw/master/just_fancy_256.png" alt="Just Logo" title="J.U.S.T." width="100" height="100">
 
 |Linux|Windows|macos|
 |--|--|--|
